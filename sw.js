@@ -1,15 +1,32 @@
 const CACHE_NAME = 'earthquake-cache-v1';
 
+// https://qiita.com/y_fujieda/items/f9e765ac9d89ba241154
 
 self.addEventListener('fetch', (event) => {
     event.respondWith(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.match(event.request).then((response) => {
-                return response || fetch(event.request).then((response) => {
-                    cache.put(event.request, response.clone());
+        caches.match(event.request)
+            .then((response) => {
+                if (response) {
                     return response;
-                });
-            });
-        })
+                }
+
+                let fetchRequest = event.request.clone();
+
+                return fetch(fetchRequest)
+                    .then((response) => {
+                        if (!response || response.status !== 200 || response.type !== 'basic') {
+                            return response;
+                        }
+
+                        let responseToCache = response.clone();
+
+                        caches.open(CACHE_NAME)
+                            .then((cache) => {
+                                cache.put(event.request, responseToCache);
+                            });
+
+                        return response;
+                    });
+            })
     );
 });
