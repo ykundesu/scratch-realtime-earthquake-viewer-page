@@ -10,6 +10,8 @@ self.addEventListener('fetch', (event) => {
                     return response;
                 }
 
+                console.log("responsed by Serviceworker: " + response.url)
+
                 let fetchRequest = event.request.clone();
 
                 return fetch(fetchRequest)
