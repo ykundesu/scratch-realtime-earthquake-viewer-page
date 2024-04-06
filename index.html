@@ -306,7 +306,7 @@
           setProgress(interpolate(0.2, 0.98, loaded / total));
         };
         
-        storage.addWebStore(
+        /*storage.addWebStore(
           [
             storage.AssetType.ImageVector,
             storage.AssetType.ImageBitmap,
@@ -314,7 +314,7 @@
             storage.AssetType.Font
           ].filter(i => i),
           (asset) => new URL('./assets/' + asset.assetId + '.' + asset.dataFormat, location).href
-        );
+        );*/
         return () => new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.onload = () => {
