@@ -7,10 +7,12 @@ self.addEventListener('fetch', (event) => {
         caches.match(event.request)
             .then((response) => {
                 if (response) {
+                    console.log("cached responsed by Serviceworker: " + response.url)
                     return response;
                 }
 
-                console.log("responsed by Serviceworker: " + response.url)
+                console.log("not cached responsed by Serviceworker: " + response.url)
+
 
                 let fetchRequest = event.request.clone();
 
